@@ -90,10 +90,7 @@ fun Navigation(navController: NavHostController) {
             "detailedView/{movieId}"
         ) { backStackEntry ->
             backStackEntry.arguments?.getString("movieId")?.let {
-                DetailedView(
-                    mealId = it,
-                    onClickEditButton = { mealId ->
-                        navController.navigate("changeView/$mealId") })
+                DetailedView(mealId = it)
             }
         }
 

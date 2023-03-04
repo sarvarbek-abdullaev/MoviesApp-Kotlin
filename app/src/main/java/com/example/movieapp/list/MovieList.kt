@@ -38,7 +38,8 @@ fun MoviesList(
 
     CustomCircularProgressBar(isProgressVisible.value)
 
-    Column(modifier = Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         Arrangement.Center,
         Alignment.CenterHorizontally
     ) {
@@ -56,15 +57,15 @@ fun MoviesList(
                 .padding(0.dp, 0.dp, 0.dp, 50.dp),
         ) {
             movies?.let {
-                    items(items = it.toList(), itemContent = { item ->
-                        MovieList(movie = item, onMovieClick = onMovieClick)
-                    })
+                items(items = it.toList(), itemContent = { item ->
+                    MovieList(movie = item, onMovieClick = onMovieClick)
+                })
             }
 
         }
-//        movies?.let {
-//            CustomCircularProgressBar(isVisible = false)
-//        }
+        movies?.let {
+            isProgressVisible.value = movies!!.isEmpty()
+        }
     }
 }
 
@@ -72,7 +73,7 @@ fun MoviesList(
 fun MovieList(movie: Movie, onMovieClick: (String) -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth()
             .padding(15.dp, 10.dp, 15.dp, 10.dp)
             .clickable {
                 onMovieClick(movie.id.toString())
@@ -128,8 +129,8 @@ fun Rating(rating: String) {
 }
 
 @Composable
-private fun CustomCircularProgressBar(isVisible: Boolean){
-    if(isVisible) {
+private fun CustomCircularProgressBar(isVisible: Boolean) {
+    if (isVisible) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -141,7 +142,8 @@ private fun CustomCircularProgressBar(isVisible: Boolean){
                     .fillMaxSize(1f)
                     .align(Alignment.Center),
                 color = Color.Blue,
-                strokeWidth = 10.dp)
+                strokeWidth = 10.dp
+            )
         }
     }
 }
