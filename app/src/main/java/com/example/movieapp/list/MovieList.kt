@@ -5,11 +5,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -27,10 +31,15 @@ fun MoviesList(
     viewModel: ListViewModel = ListViewModel()
 ) {
     val context = LocalContext.current
+
+    val isProgressVisible = remember { mutableStateOf(true) }
+
     Box(modifier = Modifier.fillMaxSize()) {
 
         val movies by viewModel.moviesLiveData.observeAsState()
-
+//        if(isProgressVisible.value) {
+            CustomCircularProgressBar()
+//        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
@@ -80,10 +89,29 @@ fun MovieList(movie: Movie) {
 @Composable
 fun Name(name: String) {
     Text(
+        modifier = Modifier.fillMaxWidth(),
         text = name,
         color = Color.Black,
         fontSize = 20.sp,
         fontFamily = FontFamily.Serif,
         textAlign = TextAlign.Center
     )
+}
+
+@Composable
+private fun CustomCircularProgressBar(){
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(100.dp)
+                .fillMaxSize(1f)
+                .align(Alignment.Center),
+            color = Color.Blue,
+            strokeWidth = 10.dp)
+    }
+
 }

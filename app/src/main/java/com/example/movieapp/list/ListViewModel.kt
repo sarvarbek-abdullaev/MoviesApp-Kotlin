@@ -31,7 +31,7 @@ class ListViewModel : ViewModel() {
                 if (mealsFromResponse != null) {
                     val meals = mutableListOf<Movie>()
                     for (mealFromResponse in mealsFromResponse) {
-                        Log.d("Delete Response", mealFromResponse.toString())
+//                        Log.d("Response", mealFromResponse.toString())
                         meals.add(
                             Movie(
                                 mealFromResponse.id,
