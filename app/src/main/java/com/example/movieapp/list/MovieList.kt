@@ -31,11 +31,11 @@ import com.example.movieapp.utils.Constants
 
 @Composable
 fun MoviesList(
+    genre: String,
     onMovieClick: (String) -> Unit = {},
-    viewModel: ListViewModel = ListViewModel()
+    viewModel: ListViewModel = ListViewModel(genre = genre)
 ) {
     val isProgressVisible = remember { mutableStateOf(true) }
-
     CustomCircularProgressBar(isProgressVisible.value)
 
     Column(
@@ -43,14 +43,11 @@ fun MoviesList(
         Arrangement.Center,
         Alignment.CenterHorizontally
     ) {
-
-
         val movies by viewModel.moviesLiveData.observeAsState()
 
         LazyColumn(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(1f)
+                .fillMaxSize()
                 .background(
                     colorResource(R.color.movies_bg)
                 )
@@ -61,7 +58,6 @@ fun MoviesList(
                     MovieList(movie = item, onMovieClick = onMovieClick)
                 })
             }
-
         }
         movies?.let {
             isProgressVisible.value = movies!!.isEmpty()
@@ -83,24 +79,29 @@ fun MovieList(movie: Movie, onMovieClick: (String) -> Unit) {
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(Constants.IMGURL + movie!!.poster_path,)
+                .data(Constants.IMGURL + movie.poster_path)
                 .crossfade(true)
                 .size(Size.ORIGINAL)
                 .build(),
-            contentDescription = movie!!.title,
+            contentDescription = movie.title,
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth(1f)
+            modifier = Modifier.fillMaxWidth(0.9f)
         )
-        Row(modifier = Modifier
-            .fillMaxWidth(1f)
-            .background(
-                colorResource(R.color.movie_bg)
-            ),
-            Arrangement.Center,
-            Alignment.CenterVertically
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .background(
+                    colorResource(R.color.movie_bg)
+                ),
         ) {
-            Name(name = movie.title)
-            Rating(rating = movie.vote_average.toString())
+            Row(modifier = Modifier
+                .padding(16.dp),
+                Arrangement.SpaceBetween,
+                Alignment.CenterVertically
+            ) {
+                Name(name = movie.title)
+                Rating(rating = movie.vote_average)
+            }
         }
     }
 }
@@ -112,19 +113,24 @@ fun Name(name: String) {
         text = name,
         color = Color.Black,
         fontSize = 20.sp,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Left
     )
 }
 
 @Composable
-fun Rating(rating: String) {
+fun Rating(rating: Float) {
+    var color = colorResource(R.color.score_red)
+
+    if (rating >= 8) color = colorResource(R.color.score_green)
+    else if (rating >= 5) color = colorResource(R.color.score_orange)
+
     Text(
         modifier = Modifier.fillMaxWidth(),
-        text = rating,
-        color = Color.White,
+        text = rating.toString(),
+        color = color,
         fontSize = 20.sp,
         fontFamily = FontFamily.Serif,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Right,
     )
 }
 

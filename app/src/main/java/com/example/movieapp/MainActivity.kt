@@ -45,13 +45,26 @@ class MainActivity : ComponentActivity() {
                         BottomNavigationBar(
                             items = listOf(
                                 BottomNavItem(
-//                                    name = stringResource(id = R.string.navigation_meals_title),
+                                    name = "Home",
+                                    route = "mainList",
+                                    icon = Icons.Default.List
+                                ),
+                                BottomNavItem(
                                     name = "Movies",
                                     route = "moviesList",
                                     icon = Icons.Default.List
                                 ),
                                 BottomNavItem(
-//                                    name = stringResource(id = R.string.navigation_settings_title),
+                                    name = "Cartoons",
+                                    route = "cartoonsList",
+                                    icon = Icons.Default.List
+                                ),
+                                BottomNavItem(
+                                    name = "Popular",
+                                    route = "popularList",
+                                    icon = Icons.Default.List
+                                ),
+                                BottomNavItem(
                                     name = "Settings",
                                     route = "settings",
                                     icon = Icons.Default.Settings
@@ -74,9 +87,31 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "moviesList") {
+    NavHost(navController = navController, startDestination = "mainList") {
+        composable("mainList") {
+            MoviesList(
+                genre = "main",
+                onMovieClick = { movieId ->
+                    navController.navigate("detailedView/$movieId") }
+            )
+        }
         composable("moviesList") {
             MoviesList(
+                genre = "movies",
+                onMovieClick = { movieId ->
+                    navController.navigate("detailedView/$movieId") }
+            )
+        }
+        composable("cartoonsList") {
+            MoviesList(
+                genre = "cartoons",
+                onMovieClick = { movieId ->
+                    navController.navigate("detailedView/$movieId") }
+            )
+        }
+        composable("popularList") {
+            MoviesList(
+                genre = "popular",
                 onMovieClick = { movieId ->
                     navController.navigate("detailedView/$movieId") }
             )

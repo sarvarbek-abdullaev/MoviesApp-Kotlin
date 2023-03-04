@@ -13,6 +13,11 @@ interface MovieService {
         @Query("page") page: String,
         @Query("api_key") api_key: String
     ): MyListResponse<MovieResponse>
+    @GET("discover/movie")
+    suspend fun getMoviesByGenre(
+        @Query("with_genres") with_genres: String,
+        @Query("api_key") api_key: String
+    ): MyListResponse<MovieResponse>
 
     @GET("movie/{movie_id}")
     suspend fun getOneMovieById(

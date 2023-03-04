@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="movies_bg">#22254BFF</color>
     <color name="movie_bg">#373b69FF</color>
+    <color name="score_green">#27BD27</color>
+    <color name="score_red">#bd2a2a</color>
+    <color name="score_orange">#ffa500</color>
 </resources>

@@ -27,7 +27,6 @@ class DetailedViewModel(mealId: String) : ViewModel() {
                 val response: MovieResponse =
                     RetrofitInstance.movieService.getOneMovieById(movieId, Constants.APIKEY)
                 val mealFromResponse = response
-                Log.d("response", mealFromResponse.toString())
 
                 if (mealFromResponse != null) {
                     mealLiveData.value = Movie(

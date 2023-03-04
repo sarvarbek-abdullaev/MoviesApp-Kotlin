@@ -12,14 +12,19 @@ import com.example.movieapp.utils.Constants
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class ListViewModel : ViewModel() {
+class ListViewModel(genre: String) : ViewModel() {
 
     val moviesLiveData: MutableLiveData<List<Movie>> by lazy {
         MutableLiveData<List<Movie>>()
     }
 
     init {
-        getListOfMealsFromRemoteDb()
+        when (genre) {
+            "main" -> getListOfMealsFromRemoteDb()
+            "cartoons" -> getListOfMoviesByGenres("16")
+            "popular" -> getListOfMoviesByGenres("28,18")
+            "movies" -> getListOfMoviesByGenres("878")
+        }
     }
 
     fun getListOfMealsFromRemoteDb() {
@@ -31,7 +36,42 @@ class ListViewModel : ViewModel() {
                 if (mealsFromResponse != null) {
                     val meals = mutableListOf<Movie>()
                     for (mealFromResponse in mealsFromResponse) {
-//                        Log.d("Response", mealFromResponse.toString())
+                        meals.add(
+                            Movie(
+                                mealFromResponse.id,
+                                mealFromResponse.adult,
+                                mealFromResponse.backdrop_path,
+                                mealFromResponse.budget,
+//                                mealFromResponse.homepage,
+                                mealFromResponse.original_language,
+                                mealFromResponse.original_title,
+                                mealFromResponse.overview,
+                                mealFromResponse.popularity,
+                                mealFromResponse.poster_path,
+                                mealFromResponse.release_date,
+                                mealFromResponse.revenue,
+                                mealFromResponse.vote_average,
+                                mealFromResponse.vote_count,
+                                mealFromResponse.title
+                            )
+                        )
+                    }
+                    moviesLiveData.value = meals
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+    fun getListOfMoviesByGenres(genres: String) {
+        viewModelScope.launch {
+            try {
+                val response: MyListResponse<MovieResponse> =
+                    RetrofitInstance.movieService.getMoviesByGenre(with_genres = genres, api_key = Constants.APIKEY)
+                val mealsFromResponse = response.results
+                if (mealsFromResponse != null) {
+                    val meals = mutableListOf<Movie>()
+                    for (mealFromResponse in mealsFromResponse) {
                         meals.add(
                             Movie(
                                 mealFromResponse.id,
