@@ -27,7 +27,7 @@ import com.example.movieapp.utils.Constants
 
 @Composable
 fun MoviesList(
-//    onMovieClick: (String) -> Unit = {},
+    onMovieClick: (String) -> Unit = {},
     viewModel: ListViewModel = ListViewModel()
 ) {
     val context = LocalContext.current
@@ -37,9 +37,7 @@ fun MoviesList(
     Box(modifier = Modifier.fillMaxSize()) {
 
         val movies by viewModel.moviesLiveData.observeAsState()
-//        if(isProgressVisible.value) {
-            CustomCircularProgressBar()
-//        }
+        CustomCircularProgressBar()
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
@@ -51,8 +49,7 @@ fun MoviesList(
         ) {
             movies?.let {
                 items(items = it.toList(), itemContent = { item ->
-//                    MovieList(movie = item, onMovieClick = onMovieClick)
-                    MovieList(movie = item)
+                    MovieList(movie = item, onMovieClick = onMovieClick)
                 })
             }
         }
@@ -60,14 +57,14 @@ fun MoviesList(
 }
 
 @Composable
-fun MovieList(movie: Movie) {
+fun MovieList(movie: Movie, onMovieClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(15.dp, 10.dp, 15.dp, 0.dp)
-//            .clickable {
-//                onMovieClick(movie.id.toString())
-//            }
+            .clickable {
+                onMovieClick(movie.id.toString())
+            }
     ) {
         AsyncImage(
             model = Constants.IMGURL + movie!!.poster_path,

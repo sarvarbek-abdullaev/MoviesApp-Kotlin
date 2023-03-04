@@ -1,7 +1,6 @@
 package com.example.movieapp.network
 
 import com.example.movieapp.network.movie.MovieResponse
-import com.example.movieapp.network.myResponse.MyItemResponse
 import com.example.movieapp.network.myResponse.MyListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -19,5 +18,5 @@ interface MovieService {
     suspend fun getOneMovieById(
         @Path("movie_id") record_id: String,
         @Query("api_key") api_key: String
-    ): MyItemResponse<MovieResponse>
+    ): MovieResponse
 }

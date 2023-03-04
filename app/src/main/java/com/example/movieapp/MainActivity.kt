@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.movieapp.detailedView.DetailedView
 import com.example.movieapp.list.MoviesList
 import com.example.movieapp.settings.Settings
 import com.example.movieapp.ui.theme.MovieAppTheme
@@ -75,17 +76,27 @@ class MainActivity : ComponentActivity() {
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "moviesList") {
         composable("moviesList") {
-            MoviesList()
-//            MoviesList(
-//                onMovieClick = { movieId ->
-//                    navController.navigate("detailedView/$movieId") }
-//            )
-//            Settings()
+            MoviesList(
+                onMovieClick = { movieId ->
+                    navController.navigate("detailedView/$movieId") }
+            )
         }
 
         composable("settings") {
             Settings()
         }
+
+        composable(
+            "detailedView/{movieId}"
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getString("movieId")?.let {
+                DetailedView(
+                    mealId = it,
+                    onClickEditButton = { mealId ->
+                        navController.navigate("changeView/$mealId") })
+            }
+        }
+
     }
 }
 
