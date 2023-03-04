@@ -52,7 +52,7 @@ fun DetailedView(mealId: String,
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            TopNavigation(context, "DETAILED VIEW")
+            TopNavigation("MOVIES")
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Bottom
@@ -170,18 +170,10 @@ private fun ActorTextView(recipe: String, isTheLastOne: Boolean) {
 }
 
 @Composable
-fun TopNavigation(context: Context, text:String) {
+fun TopNavigation(text:String) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 10.dp)) {
-        Icon(
-            Icons.Default.ArrowBack,
-            "Back",
-            Modifier.clickable {
-//                context.startActivity(Intent(context, MainActivity::class.java))
-            },
-            Color.Blue
-        )
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = text,

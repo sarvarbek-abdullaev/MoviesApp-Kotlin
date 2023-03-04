@@ -37,9 +37,9 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.background,
+                    contentColor = Color.DarkGray
                 ) {
-//                    Navigation()
                     val navController = rememberNavController()
                     Scaffold(bottomBar = {
                         BottomNavigationBar(
